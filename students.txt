@@ -1,0 +1,6 @@
+adamadamski@gmail.com,adam,adamski,5,2,GRADED
+123@gmail.com,jan,pawel,12,2,GRADED
+@@@@@@@gmail,piotr,wozniak,54,3,GRADED
+123,123,123,69,3.5,GRADED
+1,2,3,4,2,GRADED
+121333333333333333,ssss,chlop,2136,5,GRADED
