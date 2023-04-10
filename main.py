@@ -3,7 +3,7 @@ from email.mime.text import MIMEText
 
 filepath = "students.txt"
 Studenci = []
-flag = True
+
 
 def load(path):
     lines = []
@@ -93,8 +93,6 @@ def delete():
                 Studenci.remove(y)
                 print('usunieto dane studenta z emailem: '+x)
                 save(filepath)
-                continue
-            print('??? ' + x + ' ??? nie ma studenta o takim emailu, nie mozna go usunac !!!')
 
     save(filepath)
     print('zapisano zaktualizowane dane w pliku')
@@ -103,6 +101,9 @@ def delete():
 def sendemails():
 
     autograde()
+
+    smtp_server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    smtp_server.login("ppys22408@gmail.com", "hpspmwynvusifgiz")
 
     for x in Studenci:
         if x['status'] != 'MAILED':
@@ -113,20 +114,18 @@ def sendemails():
             points = x['points']
             grade = x['grade']
 
-            body = "Uzyskano :"+points+" punktow z przedmiotu PPY, wystawiono ocenę "+grade
+            body = "Uzyskano: "+points+" punktow z przedmiotu PPY, wystawiono ocenę "+grade
 
             msg = MIMEText(body)
             msg['Subject'] = "ocena z przedmiotu PPY "+name+" "+lastname
             msg['From'] = "ppys22408@gmail.com"
             msg['To'] = email
-            smtp_server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-            smtp_server.login("ppys22408@gmail.com", "hpspmwynvusifgiz")
             smtp_server.sendmail("ppys22408@gmail.com", email, msg.as_string())
-            smtp_server.quit()
 
             x['status'] = 'MAILED'
             print("wysłano maila do: "+email)
 
+    smtp_server.quit()
     save(filepath)
 
 
@@ -143,6 +142,9 @@ def switch(n):
         return 0
 
 
+load(filepath)
+
+
 print("wpisz:")
 print("'1' - wysłanie maila o wystawionej ocenie studentom o statusie innym niż 'MAILED'")
 print("# wystawia również automatycznie oceny studentom bez oceny")
@@ -152,7 +154,7 @@ print("'4' - wystawienie ocen wszystkim studentom bez oceny")
 print("'0' - zakonczenie programu")
 
 
-while flag:
+while True:
      if switch(input()) == 0:
          break
 
